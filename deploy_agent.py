@@ -99,3 +99,6 @@ def deploy_backend():
                        "-e", f"JWT_SECRET={jwt_secret}",
                        "-e", f"MINIO_PASS={minio_password}",
                          "--name" ,"backend", "-p" ,"4200:4200" ,"backend"])
+    
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port="80",debug=True)
