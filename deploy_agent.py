@@ -19,12 +19,15 @@ def post_data():
     if password == data["password"]:
         deploy_be = data["deploy_backend"]
         should_deploy_sql = data["deploy_sql"]
+        should_deploy_bot = data["deploy_bot"]
         #should_deploy_minio = data["deploy_minio"]
         
         if deploy_be:
             deploy_backend()
         if should_deploy_sql:
             deploy_sql_server()
+        if should_deploy_bot:
+            deploy_bot()
         # if should_deploy_minio:
         #     deploy_minio_server()
         deploy_sql_migrations()
@@ -37,6 +40,17 @@ def getSqlPassword():
     password = f.readline()
     f.close()
     return password
+
+def deploy_bot():
+    os.chdir("/home/app/code")
+    os.system("rm -rf overflow-bot")
+    os.system("git clone https://github.com/2412rock/overflow-bot")
+    os.chdir("/home/app/code/overflow-bot")
+    os.system("docker stop bot")
+    os.system("docker rm bot")
+    os.system("docker build -t bot .")
+    subprocess.Popen([
+    "docker", "run", "--name", "bot", "bot"])
 
 def deploy_sql_migrations():
     os.chdir("/home/app/code")
