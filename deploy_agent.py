@@ -41,6 +41,13 @@ def getSqlPassword():
     f.close()
     return password
 
+def readLineFromFile(file):
+    f = open(file)
+    result = f.readline()
+    f.close()
+    return result
+
+
 def deploy_bot():
     os.chdir("/home/app/code")
     os.system("rm -rf overflow-bot")
@@ -50,7 +57,7 @@ def deploy_bot():
     os.system("docker rm bot")
     os.system("docker build -t bot .")
     subprocess.Popen([
-    "docker", "run", "--name", "bot", "bot"])
+    "docker", "run", "-e", f"PASSWORD={readLineFromFile("/home/app/keys/bot_password.txt")}", "--name", "bot", "bot"])
 
 def deploy_sql_migrations():
     os.chdir("/home/app/code")
@@ -85,12 +92,6 @@ def deploy_sql_server():
     #docker exec -it sql-overflow /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyP@ssword1! -d master -i /usr/src/init.sql
     os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
     os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/pupulate_with_data.sql")
-
-def readLineFromFile(file):
-    f = open(file)
-    result = f.readline()
-    f.close()
-    return result
 
 def deploy_backend():
     os.chdir("/home/app/code")
