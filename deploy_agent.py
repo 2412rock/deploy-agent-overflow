@@ -56,8 +56,9 @@ def deploy_bot():
     os.system("docker stop bot")
     os.system("docker rm bot")
     os.system("docker build -t bot .")
+    password = readLineFromFile("/home/app/keys/bot_password.txt")
     subprocess.Popen([
-    "docker", "run", "-e", f"PASSWORD={readLineFromFile("/home/app/keys/bot_password.txt")}", "--name", "bot", "bot"])
+    "docker", "run", "-e", f"PASSWORD={password}", "--name", "bot", "bot"])
 
 def deploy_sql_migrations():
     os.chdir("/home/app/code")
