@@ -50,7 +50,7 @@ def readLineFromFile(file):
 
 def deploy_bot():
     os.chdir("C:/Users/Server/Desktop")
-    os.system("rm -rf overflow-bot")
+    os.system("rmdir /S /Q overflow-bot")
     os.system("git clone https://github.com/2412rock/overflow-bot")
     os.chdir("C:/Users/Server/Desktop/overflow-bot")
     os.system("docker stop bot")
@@ -62,7 +62,7 @@ def deploy_bot():
 
 def deploy_sql_migrations():
     os.chdir("C:/Users/Server/Desktop")
-    os.system("rm -rf sql-overflow")
+    os.system("rmdir /S /Q sql-overflow")
     os.system("git clone https://github.com/2412rock/sql-overflow")
     os.chdir("C:/Users/Server/Desktop/sql-overflow")
 
@@ -75,7 +75,7 @@ def deploy_sql_migrations():
 
 def deploy_sql_server():
     os.chdir("C:/Users/Server/Desktop")
-    os.system("rm -rf sql-overflow ")
+    os.system("rmdir /S /Q sql-overflow ")
     os.system("git clone https://github.com/2412rock/sql-overflow")
     os.chdir("C:/Users/Server/Desktop/sql-overflow")
     os.system("docker stop sql-server")
@@ -96,7 +96,7 @@ def deploy_sql_server():
 
 def deploy_backend():
     os.chdir("C:/Users/Server/Desktop")
-    os.system("rm -rf overflow-backend")
+    os.system("rmdir /S /Q overflow-backend")
     os.system("git clone https://github.com/2412rock/overflow-backend")
     shutil.copy("C:/Users/Server/Documents/overflow/backendcertificate.pfx", "C:/Users/Server/Desktop/overflow-backend")
     os.chdir("C:/Users/Server/Desktop/overflow-backend")
