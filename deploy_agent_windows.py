@@ -69,8 +69,8 @@ def deploy_sql_migrations():
     os.system("docker cp init.sql sql-server:/usr/src")
     os.system("docker cp populate.sql sql-server:/usr/src")
     #docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyP@ssword1! -d master -i /usr/src/init.sql
-    os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
-    os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql")
+    os.system(f"docker exec -it sql-server //opt//mssql-tools//bin//sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
+    os.system(f"docker exec -it sql-server //opt//mssql-tools//bin//sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql")
 
 
 def deploy_sql_server():
@@ -110,6 +110,8 @@ def deploy_backend():
 
     jwt_secret = readLineFromFile("C:/Users/Server/Documents/overflow/JWT_SECRET.txt")
     minio_password = readLineFromFile("C:/Users/Server/Documents/overflow/minio_password.txt")
+    #docker run -e SA_PASSWORD=MyP@ssword1! -e PFX_PASS=24adna -e JWT_SECRET=ThisIsASecretKey1!@@@@ --name backend -p 4200:4200 backend
+
     subprocess.Popen(["docker", "run", "-e", f'SA_PASSWORD={getSqlPassword()}',
                        "-e", f'PFX_PASS={pfx_pass}',
                        "-e", f"JWT_SECRET={jwt_secret}",
