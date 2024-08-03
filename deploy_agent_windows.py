@@ -69,8 +69,8 @@ def deploy_sql_migrations():
     os.system("docker cp init.sql sql-server:/usr/src")
     os.system("docker cp populate.sql sql-server:/usr/src")
     #docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyP@ssword1! -d master -i /usr/src/init.sql
-    os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
-    os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql")
+    os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql -C TrustServerCertificate=True")
+    os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql -C TrustServerCertificate=True")
 
 
 def deploy_sql_server():
