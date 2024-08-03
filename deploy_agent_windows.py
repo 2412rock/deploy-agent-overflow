@@ -69,8 +69,8 @@ def deploy_sql_migrations():
     os.system("docker cp init.sql sql-server:/usr/src")
     os.system("docker cp populate.sql sql-server:/usr/src")
     #docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyP@ssword1! -d master -i /usr/src/init.sql
-    os.system(f"docker exec -it sql-server //opt//mssql-tools//bin//sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
-    os.system(f"docker exec -it sql-server //opt//mssql-tools//bin//sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql")
+    os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
+    os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql")
 
 
 def deploy_sql_server():
@@ -119,4 +119,4 @@ def deploy_backend():
                          "--name" ,"backend", "-p" ,"4200:4200" ,"backend"])
     
 if __name__ == '__main__':
-    app.run(host="172.26.17.97", port="80",debug=True)
+    app.run(host="10.244.17.97", port="80",debug=True)
