@@ -109,10 +109,12 @@ def deploy_backend():
 
     jwt_secret = readLineFromFile("C:/Users/Server/Documents/overflow/JWT_SECRET.txt")
     minio_password = readLineFromFile("C:/Users/Server/Documents/overflow/minio_password.txt")
+    email_password = readLineFromFile("C:/Users/Server/Documents/overflow/emailpasswd.txt")
     subprocess.Popen(["docker", "run", "-e", f'SA_PASSWORD={getSqlPassword()}',
                        "-e", f'PFX_PASS={pfx_pass}',
                        "-e", f"JWT_SECRET={jwt_secret}",
                        "-e", f"MINIO_PASS={minio_password}",
+                       "-e", f"EMAIL_PASSWD={email_password}",
                          "--name" ,"backend", "-p" ,"4200:4200" ,"backend"])
     
 if __name__ == '__main__':
