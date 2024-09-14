@@ -111,7 +111,7 @@ def deploy_backend():
     minio_password = readLineFromFile("C:/Users/Server/Documents/overflow/minio_password.txt")
     email_password = readLineFromFile("C:/Users/Server/Documents/overflow/emailpasswd.txt")
     subprocess.Popen(["docker", "run", 
-                      "-v",  "C:/Users/Server/docker-logs:/app/logs"
+                      "-v",  "C:/Users/Server/docker-logs:/app/logs",
                       "-e", f'SA_PASSWORD={getSqlPassword()}',
                        "-e", f'PFX_PASS={pfx_pass}',
                        "-e", f"JWT_SECRET={jwt_secret}",
