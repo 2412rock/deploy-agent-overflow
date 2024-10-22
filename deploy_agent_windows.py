@@ -58,7 +58,7 @@ def deploy_bot():
     os.system("docker build -t bot .")
     password = readLineFromFile("C:/Users/Server/Documents/overflow/bot_password.txt")
     subprocess.Popen([
-    "docker", "run", "-e", f"PASSWORD={password}", "--name", "bot", "bot"])
+    "docker", "run", "-d", "-e", f"PASSWORD={password}", "--name", "bot", "bot"])
 
 def deploy_sql_migrations():
     os.chdir("C:/Users/Server/Desktop")
@@ -83,8 +83,8 @@ def deploy_sql_server():
     os.system("docker build -t sql-server .")
     #docker run -e SA_PASSWORD=MyP@ssword1! -d -p 1433:1433 --name sql-overflow sql-overflow
     subprocess.Popen([
-    "docker", "run", "-e", f'SA_PASSWORD={getSqlPassword()}',
-    "-d", "-p", "1433:1433", "--name", "sql-server", "sql-server"
+    "docker", "run", "-d", "-e", f'SA_PASSWORD={getSqlPassword()}',
+     "-p", "1433:1433", "--name", "sql-server", "sql-server"
 ])
     print('Waiting for server to start')
     time.sleep(10)
@@ -110,7 +110,7 @@ def deploy_backend():
     jwt_secret = readLineFromFile("C:/Users/Server/Documents/overflow/JWT_SECRET.txt")
     minio_password = readLineFromFile("C:/Users/Server/Documents/overflow/minio_password.txt")
     email_password = readLineFromFile("C:/Users/Server/Documents/overflow/emailpasswd.txt")
-    subprocess.Popen(["docker", "run", 
+    subprocess.Popen(["docker", "run", "-d",
                       "-v",  "C:/Users/Server/docker-logs:/app/logs",
                       "-e", f'SA_PASSWORD={getSqlPassword()}',
                        "-e", f'PFX_PASS={pfx_pass}',
