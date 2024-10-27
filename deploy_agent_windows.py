@@ -56,9 +56,10 @@ def deploy_bot():
     os.system("docker stop bot")
     os.system("docker rm bot")
     os.system("docker build -t bot .")
+    local_ip = get_local_ip()
     password = readLineFromFile("C:/Users/Server/Documents/overflow/bot_password.txt")
     subprocess.Popen([
-    "docker", "run", "-d", "-e", f"PASSWORD={password}", "--name", "bot", "bot"])
+    "docker", "run", "-d", "-e", f"LOCAL_IP={local_ip}", "-e", f"PASSWORD={password}", "--name", "bot", "bot"])
 
 def deploy_sql_migrations():
     os.chdir("C:/Users/Server/Desktop")
@@ -93,6 +94,15 @@ def deploy_sql_server():
     os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
     os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/pupulate_with_data.sql")
 
+def get_local_ip():
+    # Create a dummy connection to determine the LAN IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("192.168.1.1", 80))  # Using a common LAN IP as a dummy destination
+    local_ip = s.getsockname()[0]
+    s.close()
+    return local_ip
+
+
 def deploy_backend():
     os.chdir("C:/Users/Server/Desktop")
     os.system("rmdir /S /Q overflow-backend")
@@ -106,6 +116,7 @@ def deploy_backend():
     pfx_pass_file = open('C:/Users/Server/Documents/overflow/pfx_pass.txt', 'r')
     pfx_pass = pfx_pass_file.readline()
     pfx_pass_file.close()
+    local_ip = get_local_ip()
 
     jwt_secret = readLineFromFile("C:/Users/Server/Documents/overflow/JWT_SECRET.txt")
     minio_password = readLineFromFile("C:/Users/Server/Documents/overflow/minio_password.txt")
@@ -113,6 +124,7 @@ def deploy_backend():
     subprocess.Popen(["docker", "run", "-d",
                       "-v",  "C:/Users/Server/docker-logs:/app/logs",
                       "-e", f'SA_PASSWORD={getSqlPassword()}',
+                      "-e", f'LOCAL_IP={local_ip}',
                        "-e", f'PFX_PASS={pfx_pass}',
                        "-e", f"JWT_SECRET={jwt_secret}",
                        "-e", f"MINIO_PASS={minio_password}",
