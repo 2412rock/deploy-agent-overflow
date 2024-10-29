@@ -90,6 +90,7 @@ def deploy_sql_server(deploy_migrations):
     os.system("docker rm sql-server")
     os.system("docker build -t sql-server .")
     #docker run -e SA_PASSWORD=MyP@ssword1! -d -p 1433:1433 --name sql-overflow sql-overflow
+    print(f'SA_PASSWORD={getSqlPassword()}')
     subprocess.Popen([
     "docker", "run", "-d", "-e", f'SA_PASSWORD={getSqlPassword()}',
      "-p", "1433:1433", "--name", "sql-server", "sql-server"
