@@ -140,4 +140,4 @@ def deploy_backend():
                          "--name" ,"backend", "-p" ,"4200:4200" ,"backend"])
     
 if __name__ == '__main__':
-    app.run(host=host, port="80",debug=True)
+    app.run(host=host, port="8080",debug=True)
