@@ -107,7 +107,6 @@ def deploy_backend():
     os.chdir("C:/Users/Server/Desktop")
     os.system("rmdir /S /Q overflow-backend")
     os.system("git clone https://github.com/2412rock/overflow-backend")
-    shutil.copy("C:/Users/Server/Documents/overflow/backendcertificate.pfx", "C:/Users/Server/Desktop/overflow-backend")
     os.chdir("C:/Users/Server/Desktop/overflow-backend")
     os.system("docker stop backend")
     os.system("docker rm backend")
