@@ -9,13 +9,13 @@ import time
 import sys
 from flask_cors import CORS
 
-CORS(app)
 
 desktop_dir = '/home/albuadrian2412/'
 documents_dir = '/home/albuadrian2412/documents/overflow/'
 host = sys.argv[1]
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/deploy', methods=['POST'])
 def post_data():
