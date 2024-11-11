@@ -126,4 +126,49 @@ def deploy_bot():
     os.chdir("C:/Users/Server/Desktop/overflow-bot")
     os.system("docker stop bot")
     os.system("docker rm bot")
-    os.s
+    os.system("docker build -t bot .")
+    
+    local_ip = get_local_ip()
+    password = read_password_from_file("C:/Users/Server/Documents/overflow/bot_password.txt")
+    
+    command = [
+        "docker", "run", "-d", 
+        "-e", f"LOCAL_IP={local_ip}", 
+        "-e", f"PASSWORD={password}", 
+        "--name", "bot", "bot"
+    ]
+    
+    return execute_command(command)
+
+
+def deploy_sql_migrations():
+    """Deploys SQL migrations and returns the result."""
+    os.chdir("C:/Users/Server/Desktop")
+    os.system("rmdir /S /Q sql-overflow")
+    os.system("git clone https://github.com/2412rock/sql-overflow")
+    os.chdir("C:/Users/Server/Desktop/sql-overflow")
+
+    os.system("docker cp init.sql sql-server:/usr/src")
+    os.system("docker cp populate.sql sql-server:/usr/src")
+    os.system(f'docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql')
+    os.system(f'docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/populate.sql')
+
+    return "SQL migrations applied."
+
+
+def execute_command(command):
+    """Executes a command and returns the result."""
+    try:
+        result = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
+        return f"Command executed successfully: {result}"
+    except subprocess.CalledProcessError as e:
+        return f"Command failed with error: {e.output}"
+
+
+def getSqlPassword():
+    """Fetches the SQL password."""
+    return read_password_from_file('C:/Users/Server/Documents/overflow/sql_password.txt')
+
+
+if __name__ == '__main__':
+    app.run(host="10.244.17.97", port="80", debug=True)
