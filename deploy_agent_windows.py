@@ -6,8 +6,11 @@ import shutil
 import glob
 import socket
 import time
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app)
 
 @app.route('/api/deploy', methods=['POST'])
 def post_data():
