@@ -103,8 +103,8 @@ def deploy_sql_server(deploy_migrations):
         time.sleep(10)
         os.system("docker cp init.sql sql-overflow:/usr/src")
         os.system("docker cp pupulate_with_data.sql sql-server:/usr/src")
-        os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
-        os.system(f"docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/pupulate_with_data.sql")
+        os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
+        os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/pupulate_with_data.sql")
 
 def get_local_ip():
     # Create a dummy connection to determine the LAN IP
