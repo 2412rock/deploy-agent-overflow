@@ -101,7 +101,7 @@ def deploy_sql_server(deploy_migrations):
     if deploy_migrations:
         print('Waiting for server to start')
         time.sleep(10)
-        os.system("docker cp init.sql sql-overflow:/usr/src")
+        os.system("docker cp init.sql sql-server:/usr/src")
         os.system("docker cp pupulate_with_data.sql sql-server:/usr/src")
         os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/init.sql")
         os.system(f"docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P {getSqlPassword()} -d master -i /usr/src/pupulate_with_data.sql")
